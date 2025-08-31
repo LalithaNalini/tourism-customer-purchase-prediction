@@ -1,0 +1,64 @@
+# Define the content of the pipeline.yml file
+pipeline_yml_content = """
+name: ML Pipeline
+
+on:
+  push:
+    branches:
+      - main # Or your main branch name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9' # Specify your Python version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Data Registration
+      run: |
+        # Add commands to register data on Hugging Face
+        # This might involve running a Python script that uses the huggingface_hub library
+        python data_registration.py 
+
+    - name: Data Preparation
+      run: |
+        # Add commands to prepare data (cleaning, splitting)
+        # This might involve running a Python script
+        python data_preparationscript.py 
+
+    - name: Model Building and Experimentation Tracking
+      run: |
+        # Add commands to train the model and log experiments
+        # This might involve running a Python script
+        python model_training.py 
+
+    - name: Model Evaluation
+      run: |
+        # Add commands to evaluate the model
+        # This might involve running a Python script
+        python model_evaluation 
+
+    - name: Model Registration
+      run: |
+        # Add commands to register the model on Hugging Face Model Hub
+        # This might involve running a Python script
+        python model_registration.py 
+
+    - name: Model Deployment
+      run: |
+        # Add commands to build and push Docker image, and deploy to Hugging Face Spaces
+        # This will involve using the Dockerfile, requirements.txt, app.py, and the deployment script
+        python deploy_model.py 
+
+"""
